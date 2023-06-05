@@ -1,0 +1,12 @@
+# Client build artifacts
+client/node_modules/
+client/build/
+client/.env
+
+# Server build artifacts
+server/node_modules/
+server/build/
+server/.env
+
+# Environment variables
+.env
