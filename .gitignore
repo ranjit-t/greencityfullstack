@@ -2,11 +2,14 @@
 client/node_modules/
 client/build/
 client/.env
+client/.DS_Store
 
 # Server build artifacts
 server/node_modules/
 server/build/
 server/.env
+server/.DS_Store
 
 # Environment variables
 .env
+.DS_Store
