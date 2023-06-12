@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 
-export default function Login({ setIsSigningUp }) {
+export default function Login({ setIsSigningUp, setIsLogged }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const [message, setMessage] = useState("");
   const [messageError, setMessageError] = useState(true);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     const userData = {
@@ -15,31 +15,25 @@ export default function Login({ setIsSigningUp }) {
       password,
     };
 
-    fetch("http://localhost:5000/api/login", {
+    const response = await fetch("http://localhost:5000/api/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(userData),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log("Logged in:", data);
-        if (data.token) {
-          setMessageError(false);
-          setMessage("Logged in ");
-          return;
-        } else {
-          console.error("Check your email and password");
-          setMessageError(true);
-          setMessage("Check your email and password");
-        }
-      })
-      .catch((error) => {
-        console.error("Error Logging in :", error);
-        setMessageError(true);
-        setMessage("Check your email and password");
-      });
+    });
+    const data = await response.json();
+    if (response.ok) {
+      setMessageError(false);
+      setMessage(data.message);
+      // if(response.data)
+      localStorage.setItem("consciousearth", JSON.stringify(data.token));
+      console.log(data);
+      setIsLogged(true);
+    } else {
+      setMessageError(true);
+      setMessage(data.message);
+    }
   };
 
   return (
