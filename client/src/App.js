@@ -9,6 +9,7 @@ import jwtDecode from "jwt-decode";
 function App() {
   const [isSigningUp, setIsSigningUp] = useState(false);
   const [isLogged, setIsLogged] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const existingToken = JSON.parse(localStorage.getItem("consciousearth"));
@@ -29,23 +30,28 @@ function App() {
     } else {
       setIsLogged(false);
     }
+    setIsLoading(false);
   }, [setIsLogged]);
   return (
     <div className="App h-[100vh] bg-neutral-100">
       <h1 className="text-3xl font-bold pt-4">Conscious Guide</h1>
 
-      <div className="flex flex-col justify-center items-center h-[80vh] ">
-        {isLogged ? (
-          <Home setIsLogged={setIsLogged}></Home>
-        ) : isSigningUp ? (
-          <Signup setIsSigningUp={setIsSigningUp}></Signup>
-        ) : (
-          <Login
-            setIsSigningUp={setIsSigningUp}
-            setIsLogged={setIsLogged}
-          ></Login>
-        )}
-      </div>
+      {isLoading ? (
+        <div>...loading</div>
+      ) : (
+        <div className="flex flex-col justify-center items-center h-[80vh] ">
+          {isLogged ? (
+            <Home setIsLogged={setIsLogged}></Home>
+          ) : isSigningUp ? (
+            <Signup setIsSigningUp={setIsSigningUp}></Signup>
+          ) : (
+            <Login
+              setIsSigningUp={setIsSigningUp}
+              setIsLogged={setIsLogged}
+            ></Login>
+          )}
+        </div>
+      )}
     </div>
   );
 }
